@@ -58,6 +58,7 @@ button {
 	transition: all 0.3s; /*all kinds of transitions, do it with 0.3s animation*/
 	-webkit-transition: all 0.3s; 
 	-moz-transition: all 0.3s; 
+	outline: none; /*turn on and off to see changes*/
 }
 button:hover {
 	color: white;
