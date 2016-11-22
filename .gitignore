@@ -1,7 +1,15 @@
 theIndex.html
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
+
+# node modules
+node_modules/
+
+# database info
+mysqlServer/connectionString.js
+config/database.js
 
 # Folder config file
 Desktop.ini
@@ -18,13 +26,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# =========================
-# Operating System Files
-# =========================
 
 # OSX
-# =========================
-
 .DS_Store
 .AppleDouble
 .LSOverride
