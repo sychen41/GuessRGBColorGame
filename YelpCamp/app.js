@@ -6,9 +6,15 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 
 var campgrounds = [
-    {name: 'acamp', image: 'http://www.goodnewsnetwork.org/wp-content/uploads/2015/07/running-dog-CC-DouglasMWeston.jpg'},
-    {name: 'bcamp', image: 'https://files.graphiq.com/stories/t4/15_Tiniest_Dog_Breeds_1718_3083.jpg'},
-    {name: 'ccamp', image: 'https://i.ytimg.com/vi/6j7oQletFbc/maxresdefault.jpg'}
+    {name: '1camp', image: 'http://www.goodnewsnetwork.org/wp-content/uploads/2015/07/running-dog-CC-DouglasMWeston.jpg'},
+    {name: '2camp', image: 'https://files.graphiq.com/stories/t4/15_Tiniest_Dog_Breeds_1718_3083.jpg'},
+    {name: '3camp', image: 'https://i.ytimg.com/vi/6j7oQletFbc/maxresdefault.jpg'},
+    {name: '4camp', image: 'http://www.goodnewsnetwork.org/wp-content/uploads/2015/07/running-dog-CC-DouglasMWeston.jpg'},
+    {name: '5camp', image: 'https://files.graphiq.com/stories/t4/15_Tiniest_Dog_Breeds_1718_3083.jpg'},
+    {name: '6camp', image: 'https://i.ytimg.com/vi/6j7oQletFbc/maxresdefault.jpg'},
+    {name: '7camp', image: 'http://www.goodnewsnetwork.org/wp-content/uploads/2015/07/running-dog-CC-DouglasMWeston.jpg'},
+    {name: '8camp', image: 'https://files.graphiq.com/stories/t4/15_Tiniest_Dog_Breeds_1718_3083.jpg'},
+    {name: '9camp', image: 'https://i.ytimg.com/vi/6j7oQletFbc/maxresdefault.jpg'}
 ];
 
 app.get('/', function(req, res){
