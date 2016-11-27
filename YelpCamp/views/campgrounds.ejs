@@ -1,4 +1,8 @@
+<% include partials/header /*can't use /partials/header, because that means looking for the partials folder at the root*/ %>
+
 <h1>campgrounds</h1>
+
+<a href='/campgrounds/new'>add a new campground</a>
 
 <% campgrounds.forEach(function(campground){ %>
     <div>
@@ -6,3 +10,7 @@
         <img src='<%= campground.image %>'> 
     </div>
 <% }) %>
+
+
+
+<% include partials/footer %>
