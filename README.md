@@ -5,3 +5,4 @@ Demo Link: https://udel.edu/~sychen
 * Todo List (library: jQuery, font-awesome, google-font)
 * Sound of Keys (library: Paper.js, Howler.js)
 * Yelp Camp (On-going)(library: Node.js, Express.js, mongoose, Bootstrap, EJS)
+* Blog App (On-going)(library: Node.js, Express.js, mongoose, Semantic UI, EJS)
