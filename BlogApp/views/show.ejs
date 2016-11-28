@@ -12,9 +12,15 @@
             <span><%= blog.dateCreated.toDateString() %></span>
         </div>
         <div class='description'>
-            <p><%- blog.body %></p>
+            <p><%- blog.body %></p><!-- note we use %- not %=, because we want the html tags in the blog body to be evaluated-->
         </div>
-        <a class='ui blue basic button' href='/blogs'>Go Back</a>
+        
+        <a class='ui blue basic button' href='/blogs/<%= blog._id %>/edit'>Edit</a>
+        <form id='deleteForm' class='ui form' action='/blogs/<%= blog._id %>?_method=delete' method='post'>
+            <button class='ui red basic button' type='submit'>Delete</button>
+        </form>
+        <a href='/blogs'>Go Back</a>
+        
     </div>
 </div>
 
