@@ -1,0 +1,7 @@
+i.icon {
+    font-size: 1.1em; /*1.1 times bigger then its wrapper, which is the ui container*/
+}
+
+.container.main { /*not container class, but container which is also main class*/
+    margin-top: 3.5em;
+}
