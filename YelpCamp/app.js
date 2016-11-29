@@ -8,14 +8,16 @@ var express     = require('express'),
     
 //mongoose.connect('mongodb://localhost/yelp_camp');
 mongoose.connect('mongodb://admin:admin@ds111748.mlab.com:11748/ycdb');
-seedDB(); 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public')); //dirname is the current directory path, sth like /home/ubuntu/workspace/YelpCamp
 
-
+//init some dummy data to db
+seedDB(); 
 
 app.get('/', function(req, res){
-    res.render('landing');
+    //res.render('landing');
+    res.redirect('/campgrounds');
 });
 
 //INDEX(目录) route: show all campgrounds
