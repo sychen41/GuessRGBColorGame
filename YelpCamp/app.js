@@ -130,6 +130,6 @@ app.post('/campgrounds/:id/comments', function(req, res){
     }); 
 });
 
-app.listen(process.env.PORT, process.env.IP, function(){
+app.listen('8082', process.env.IP, function(){
     console.log('yelpcamp started');
 });
