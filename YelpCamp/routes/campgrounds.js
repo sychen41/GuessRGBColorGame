@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Campground = require('../models/campground');
+var middleware = require('../middleware');//index.js is a special name, here the statement is equivalent to require('../middleware/index.js')
 //INDEX(目录) route: show all campgrounds
 router.get('/', function(req, res){
     Campground.find({},function(err, campgrounds){
@@ -19,7 +20,7 @@ router.get('/', function(req, res){
 });
 
 //NEW route: show form to create new campground
-router.get('/new', isLoggedIn, function(req, res){
+router.get('/new', middleware.isLoggedIn, function(req, res){
     res.render('campgrounds/new');
 });
 
@@ -58,7 +59,7 @@ router.get('/:id', function(req, res) {
 });
 
 //CREATE route: add new campground to db
-router.post('/', isLoggedIn, function(req, res) {
+router.post('/', middleware.isLoggedIn, function(req, res) {
     Campground.create({
         name: req.body.name,
         image: req.body.image,
@@ -67,10 +68,9 @@ router.post('/', isLoggedIn, function(req, res) {
             id: req.user._id,
             username: req.user.username
         }
-    }, function(err, campg) {
+    }, function(err, newlyCreatedCampg) {
         if(!err) {
             console.log('SUCCESS: new campground inserted to db');
-            console.log(campg);
             res.redirect('/campgrounds');
         } else {
             console.log('FAILED: new campground inserted to db');
@@ -81,7 +81,7 @@ router.post('/', isLoggedIn, function(req, res) {
 });
 
 //Edit route
-router.get('/:id/edit', checkCampgroundOwnership, function(req, res){
+router.get('/:id/edit', middleware.checkCampgroundOwnership, function(req, res){
     Campground.findById(req.params.id, function(err, foundCampground) {
         if(!err) {
             console.log('SUCCESS: retrieve the campground for editing');
@@ -94,7 +94,7 @@ router.get('/:id/edit', checkCampgroundOwnership, function(req, res){
 });
 
 //Update route
-router.put('/:id', checkCampgroundOwnership, function(req, res){
+router.put('/:id', middleware.checkCampgroundOwnership, function(req, res){
     Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCamp){
         if(!err) {
             console.log('SUCCESS: update a campground');
@@ -108,7 +108,7 @@ router.put('/:id', checkCampgroundOwnership, function(req, res){
 });
 
 //Destroy route
-router.delete('/:id', checkCampgroundOwnership, function(req, res){
+router.delete('/:id', middleware.checkCampgroundOwnership, function(req, res){
     Campground.findByIdAndRemove(req.params.id, function(err) {
         if(!err) {
             console.log('SUCCESS: delete a campground');
@@ -120,41 +120,5 @@ router.delete('/:id', checkCampgroundOwnership, function(req, res){
         }
     });
 });
-
-//middleware to check login status
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}
-//middleware to check ownership
-function checkCampgroundOwnership(req, res, next) {
-    if(req.isAuthenticated()){
-        Campground.findById(req.params.id, function(err, foundCampground) {
-            if(!err) {
-                console.log('SUCCESS: retrieve the campground for ownership checking');
-                //req.user._id is a string, foundCampground.author.id is a mongoose object
-                //see the declaration in models/campground.js, so we can't use ===
-                //if(foundCampground.author.id === req.user._id)
-                if(foundCampground.author.id.equals(req.user._id)) {//this .equals is written by mongoose
-                    console.log('User authorization: user owns the campground');
-                    next(); 
-                }
-                else {
-                    console.log('WARNING: user authorization: user DOES NOT own the campground');
-                    res.redirect('back');
-                }
-            } else {
-                console.log('FAILED: retrieve the campground for ownership checking');
-                console.log(err); 
-                res.redirect('back');
-            }
-        });
-    } else {
-        console.log('WARNING: user did not login, redirecting back...');
-        res.redirect('back');
-    }
-}
 
 module.exports = router;

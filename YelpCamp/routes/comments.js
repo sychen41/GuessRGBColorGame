@@ -2,10 +2,12 @@ var express = require('express');
 var router = express.Router({mergeParams: true}); //without merge, id will not be passed to this file 
 var Campground = require('../models/campground');
 var Comment = require('../models/comment');
+var middleware = require('../middleware');//index.js is a special name, here the statement is equivalent to require('../middleware/index.js')
+
 //Comments routes
 //NEW route: add new comment to a campground
 //router.get('/campgrounds/:id/comments/new', isLoggedIn, function(req, res){
-router.get('/new', isLoggedIn, function(req, res){
+router.get('/new', middleware.isLoggedIn, function(req, res){
     Campground.findById(req.params.id, function(err, foundCampground){
         if(!err) {
             console.log('SUCCESS: find campground by id for commenting');
@@ -21,7 +23,7 @@ router.get('/new', isLoggedIn, function(req, res){
 //here is because that someone could use tools like postman to send a post 
 //request to this link without login, and we don't want that happen
 //router.post('/campgrounds/:id/comments', isLoggedIn, function(req, res){
-router.post('/', isLoggedIn, function(req, res){
+router.post('/', middleware.isLoggedIn, function(req, res){
     Campground.findById(req.params.id, function(err, campground) {
         if(!err) {
             console.log('SUCCESS: retrieve the campground for adding comment');
@@ -57,7 +59,7 @@ router.post('/', isLoggedIn, function(req, res){
 });
 
 //Edit route
-router.get('/:comment_id/edit', checkCommentOwnership, function(req, res) {
+router.get('/:comment_id/edit', middleware.checkCommentOwnership, function(req, res) {
     Comment.findById(req.params.comment_id, function(err, foundComment){
         if(!err) {
             console.log('SUCCESS: retrieve comment for editing');
@@ -76,7 +78,7 @@ router.get('/:comment_id/edit', checkCommentOwnership, function(req, res) {
 });
 
 //Update route
-router.put('/:comment_id', checkCommentOwnership, function(req, res) {
+router.put('/:comment_id', middleware.checkCommentOwnership, function(req, res) {
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
         if(!err) {
             console.log('SUCCESS: update comment');
@@ -89,7 +91,7 @@ router.put('/:comment_id', checkCommentOwnership, function(req, res) {
 });
 
 //Destroy route
-router.delete('/:comment_id', checkCommentOwnership, function(req, res){
+router.delete('/:comment_id', middleware.checkCommentOwnership, function(req, res){
     Comment.findByIdAndRemove(req.params.comment_id, function(err){
         if(!err) {
             console.log('SUCCESS: delete comment');
@@ -101,42 +103,5 @@ router.delete('/:comment_id', checkCommentOwnership, function(req, res){
         }
     });    
 });
-
-//middleware to check login status
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}
-//middleware to check ownership
-function checkCommentOwnership(req, res, next) {
-    if(req.isAuthenticated()){
-        Comment.findById(req.params.comment_id, function(err, foundComment) {
-            if(!err) {
-                console.log('SUCCESS: retrieve the comment for ownership checking');
-                //req.user._id is a string, foundComment.author.id is a mongoose object
-                //see the declaration in models/comment.js, so we can't use ===
-                //if(foundComment.author.id === req.user._id)
-                if(foundComment.author.id.equals(req.user._id)) {//this .equals is written by mongoose
-                    console.log('User authorization: user owns the comment');
-                    next(); 
-                }
-                else {
-                    console.log('WARNING: user authorization: user DOES NOT own the comment');
-                    res.redirect('back');
-                }
-            } else {
-                console.log('FAILED: retrieve the comment for ownership checking');
-                console.log(err); 
-                res.redirect('back');
-            }
-        });
-    } else {
-        console.log('WARNING: user did not login, redirecting back...');
-        res.redirect('back');
-    }
-}
-
 
 module.exports = router;
