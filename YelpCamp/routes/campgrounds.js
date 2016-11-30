@@ -8,7 +8,7 @@ router.get('/', function(req, res){
             console.log('SUCCESS: retrieve campgrounds from db');
             res.render('campgrounds/index', {
                 campgrounds: campgrounds
-                //currentUser: req.user no longer needed because we added a middleware to do this
+                //currentUser: req.user //no longer needed because we added a middleware to do this
             });
         }
         else {
@@ -81,7 +81,7 @@ router.post('/', isLoggedIn, function(req, res) {
 });
 
 //Edit route
-router.get('/:id/edit', function(req, res){
+router.get('/:id/edit', checkCampgroundOwnership, function(req, res){
     Campground.findById(req.params.id, function(err, foundCampground) {
         if(!err) {
             console.log('SUCCESS: retrieve the campground for editing');
@@ -94,7 +94,7 @@ router.get('/:id/edit', function(req, res){
 });
 
 //Update route
-router.put('/:id',function(req, res){
+router.put('/:id', checkCampgroundOwnership, function(req, res){
     Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCamp){
         if(!err) {
             console.log('SUCCESS: update a campground');
@@ -108,7 +108,7 @@ router.put('/:id',function(req, res){
 });
 
 //Destroy route
-router.delete('/:id', function(req, res){
+router.delete('/:id', checkCampgroundOwnership, function(req, res){
     Campground.findByIdAndRemove(req.params.id, function(err) {
         if(!err) {
             console.log('SUCCESS: delete a campground');
@@ -127,6 +127,34 @@ function isLoggedIn(req, res, next){
         return next();
     }
     res.redirect('/login');
+}
+//middleware to check ownership
+function checkCampgroundOwnership(req, res, next) {
+    if(req.isAuthenticated()){
+        Campground.findById(req.params.id, function(err, foundCampground) {
+            if(!err) {
+                console.log('SUCCESS: retrieve the campground for ownership checking');
+                //req.user._id is a string, foundCampground.author.id is a mongoose object
+                //see the declaration in models/campground.js, so we can't use ===
+                //if(foundCampground.author.id === req.user._id)
+                if(foundCampground.author.id.equals(req.user._id)) {//this .equals is written by mongoose
+                    console.log('User authorization: user owns the campground');
+                    next(); 
+                }
+                else {
+                    console.log('WARNING: user authorization: user DOES NOT own the campground');
+                    res.redirect('back');
+                }
+            } else {
+                console.log('FAILED: retrieve the campground for ownership checking');
+                console.log(err); 
+                res.redirect('back');
+            }
+        });
+    } else {
+        console.log('WARNING: user did not login, redirecting back...');
+        res.redirect('back');
+    }
 }
 
 module.exports = router;
