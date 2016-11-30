@@ -56,6 +56,52 @@ router.post('/', isLoggedIn, function(req, res){
     }); 
 });
 
+//Edit route
+router.get('/:comment_id/edit', checkCommentOwnership, function(req, res) {
+    Comment.findById(req.params.comment_id, function(err, foundComment){
+        if(!err) {
+            console.log('SUCCESS: retrieve comment for editing');
+            res.render('comments/edit', 
+                {
+                    comment: foundComment,
+                    campground_id: req.params.id
+                }
+            );
+        } else {
+            console.log('FAILED: retrieve comment for editing');
+            console.log(err); 
+            res.redirect('back');
+        } 
+    });
+});
+
+//Update route
+router.put('/:comment_id', checkCommentOwnership, function(req, res) {
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
+        if(!err) {
+            console.log('SUCCESS: update comment');
+            res.redirect('/campgrounds/'+req.params.id);
+        } else {
+            console.log('FAILED: update comment');
+            res.redirect('back');
+        }
+    });
+});
+
+//Destroy route
+router.delete('/:comment_id', checkCommentOwnership, function(req, res){
+    Comment.findByIdAndRemove(req.params.comment_id, function(err){
+        if(!err) {
+            console.log('SUCCESS: delete comment');
+            res.redirect('/campgrounds/' + req.params.id);
+        } else {
+            console.log('SUCCESS: delete comment');
+            console.log(err);
+            res.redirect('back');
+        }
+    });    
+});
+
 //middleware to check login status
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()) {
@@ -63,5 +109,34 @@ function isLoggedIn(req, res, next){
     }
     res.redirect('/login');
 }
+//middleware to check ownership
+function checkCommentOwnership(req, res, next) {
+    if(req.isAuthenticated()){
+        Comment.findById(req.params.comment_id, function(err, foundComment) {
+            if(!err) {
+                console.log('SUCCESS: retrieve the comment for ownership checking');
+                //req.user._id is a string, foundComment.author.id is a mongoose object
+                //see the declaration in models/comment.js, so we can't use ===
+                //if(foundComment.author.id === req.user._id)
+                if(foundComment.author.id.equals(req.user._id)) {//this .equals is written by mongoose
+                    console.log('User authorization: user owns the comment');
+                    next(); 
+                }
+                else {
+                    console.log('WARNING: user authorization: user DOES NOT own the comment');
+                    res.redirect('back');
+                }
+            } else {
+                console.log('FAILED: retrieve the comment for ownership checking');
+                console.log(err); 
+                res.redirect('back');
+            }
+        });
+    } else {
+        console.log('WARNING: user did not login, redirecting back...');
+        res.redirect('back');
+    }
+}
+
 
 module.exports = router;
