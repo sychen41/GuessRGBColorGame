@@ -2,6 +2,7 @@ var express         = require('express'),
     app             = express(),
     bodyParser      = require('body-parser'),
     mongoose        = require('mongoose'),
+    methodOverride  = require('method-override'),
     passport        = require('passport'),
     localStrategy   = require('passport-local'), 
     Campground      = require('./models/campground'),
@@ -18,6 +19,7 @@ mongoose.connect('mongodb://admin:admin@ds111748.mlab.com:11748/ycdb');
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public')); //dirname is the current directory path, sth like /home/ubuntu/workspace/YelpCamp
+app.use(methodOverride('_method'));
 
 //init some dummy data to db
 //seedDB(); 
