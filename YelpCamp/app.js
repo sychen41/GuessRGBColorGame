@@ -15,8 +15,8 @@ var commentRoutes       = require('./routes/comments'),
     campgroundRoutes    = require('./routes/campgrounds'),
     indexRoutes          = require('./routes/index'); 
     
-//mongoose.connect('mongodb://localhost/yelp_camp');
-mongoose.connect(process.env.DATABASEURL);
+    
+mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost/yelp_camp');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
@@ -46,6 +46,7 @@ function passUserInfoToAllResponses(req, res, next){
     res.locals.error = req.flash('error');
     res.locals.success = req.flash('success');
     res.locals.info = req.flash('info');
+    res.locals.currentPath = req.path;
     next();
 }
 app.use(passUserInfoToAllResponses);

@@ -4,8 +4,7 @@ var passport = require('passport');
 var User = require('../models/user');
 
 router.get('/', function(req, res){
-    //res.render('landing');
-    res.redirect('/campgrounds');
+    res.render('landing');
 });
 
 //Auth routes
