@@ -16,7 +16,8 @@ var commentRoutes       = require('./routes/comments'),
     indexRoutes          = require('./routes/index'); 
     
 //mongoose.connect('mongodb://localhost/yelp_camp');
-mongoose.connect('mongodb://admin:admin@ds111748.mlab.com:11748/ycdb');
+mongoose.connect(process.env.DATABASEURL);
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public')); //dirname is the current directory path, sth like /home/ubuntu/workspace/YelpCamp

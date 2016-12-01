@@ -2,7 +2,7 @@
 Demo Link: https://udel.edu/~sychen
 
 Full stack app
-* Yelp Camp (On-going)(library: Node.js, Express.js, mongoose, Bootstrap, EJS)
+* Yelp Camp (In progress)(library: Node.js, Express.js, mongoose, passport, Bootstrap, EJS)
 * Blog App (library: Node.js, Express.js, mongoose, Semantic UI, EJS)
 
 Pure front-end
