@@ -41,6 +41,7 @@ router.post('/', middleware.isLoggedIn, function(req, res){
                     campground.save(function(err){
                         if(!err) {
                             console.log('SUCCESS: add comment to campground');
+                            req.flash('success', 'Successfully added a comment');
                         } else {
                             console.log('FAILED: add comment to campground');
                         }

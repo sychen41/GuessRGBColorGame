@@ -8,6 +8,7 @@ var express         = require('express'),
     Campground      = require('./models/campground'),
     Comment         = require('./models/comment'),
     User            = require('./models/user'),
+    flash           = require('connect-flash'),
     seedDB          = require('./seeds');
     
 var commentRoutes       = require('./routes/comments'),
@@ -20,6 +21,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public')); //dirname is the current directory path, sth like /home/ubuntu/workspace/YelpCamp
 app.use(methodOverride('_method'));
+app.use(flash());
 
 //init some dummy data to db
 //seedDB(); 
@@ -40,6 +42,9 @@ passport.deserializeUser(User.deserializeUser());
 //need to pass it to every route.
 function passUserInfoToAllResponses(req, res, next){
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
+    res.locals.info = req.flash('info');
     next();
 }
 app.use(passUserInfoToAllResponses);

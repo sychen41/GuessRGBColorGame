@@ -16,17 +16,20 @@ middlewareObj.checkCampgroundOwnership = function(req, res, next) {
                     next(); 
                 }
                 else {
+                    req.flash('error', "You don't have permission to do that");
                     console.log('WARNING: user authorization: user DOES NOT own the campground');
                     res.redirect('back');
                 }
             } else {
                 console.log('FAILED: retrieve the campground for ownership checking');
                 console.log(err); 
+                req.flash('error', 'Campground not found');
                 res.redirect('back');
             }
         });
     } else {
         console.log('WARNING: user did not login, redirecting back...');
+        req.flash('error', 'You need to be logged in first');
         res.redirect('back');
     }
 };
@@ -63,6 +66,7 @@ middlewareObj.isLoggedIn = function(req, res, next){
     if(req.isAuthenticated()) {
         return next();
     }
+    req.flash('error', 'You need to be logged in to do that');
     res.redirect('/login');
 };
 
