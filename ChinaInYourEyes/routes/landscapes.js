@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Landscape = require('../models/landscape');
+var Comment = require('../models/comment');
 var middleware = require('../middleware');//index.js is a special name, here the statement is equivalent to require('../middleware/index.js')
 //INDEX(目录) route: show all landscapes
 router.get('/', function(req, res){
@@ -107,11 +108,22 @@ router.put('/:id', middleware.checkLandscapeOwnership, function(req, res){
     });
 });
 
-//Destroy route
+//Destroy route (note: here also delete all detached comments)
 router.delete('/:id', middleware.checkLandscapeOwnership, function(req, res){
-    Landscape.findByIdAndRemove(req.params.id, function(err) {
+    Landscape.findByIdAndRemove(req.params.id, function(err, removedLandscape) {
         if(!err) {
             console.log('SUCCESS: delete a landscape');
+            removedLandscape.comments.forEach(function(comment){
+                Comment.findByIdAndRemove(comment, function(err, removedComment){
+                    if(!err) {
+                        console.log('SUCCESS: delete a detached comment');
+                        //console.log(removedComment);
+                    } else {
+                        console.log('FAILED: delete a detached comment');
+                        console.log(err);
+                    }
+                });
+            });
             res.redirect('/landscapes');
         } else {
             console.log('FAILED: delete a landscape');
