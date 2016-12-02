@@ -43,17 +43,17 @@ body {
 .cb-slideshow li:nth-child(1) {
     background-image: url(http://img1.lotour.net/cmsMustKnowScenic/2015/04/2015040911195781600722.jpg);
 }
-.cb-slideshow li:nth-child(2) { 
-    background-image: url(http://www.chinfor.com/uploads/webimg/fulls/ejXDiiXbgrTJ.jpg);
-    animation-delay: 6s; 
+.cb-slideshow li:nth-child(2) {
+    background-image: url(http://upload.17u.net/uploadpicbase/2012/06/14/aa/2012061418040638709.jpg);
+    animation-delay: 6s;
 }
 .cb-slideshow li:nth-child(3) {
     background-image: url(http://image92.360doc.com/DownloadImg/2015/12/1215/62807551_68.jpg);
     animation-delay: 12s;
 }
-.cb-slideshow li:nth-child(4) { 
-    background-image: url(http://upload.17u.net/uploadpicbase/2012/06/14/aa/2012061418040638709.jpg);
-    animation-delay: 18s; 
+.cb-slideshow li:nth-child(4) {
+    background-image: url(http://www.chinfor.com/uploads/webimg/fulls/ejXDiiXbgrTJ.jpg);
+    animation-delay: 18s;
 }
 .cb-slideshow li:nth-child(5) { 
     background-image: url(http://www.jxcct.com/Pictures/TrustSoft/LinesEdit/image/20160222/20160222170952_1162.jpg);

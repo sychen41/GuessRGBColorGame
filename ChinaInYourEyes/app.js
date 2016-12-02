@@ -17,11 +17,11 @@ var commentRoutes       = require('./routes/comments'),
 
 
 mongoose.connect('mongodb://admin:admin@ds111748.mlab.com:11748/ycdb');
-//mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost/yelp_camp');
+//mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost/ciye');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/public')); //dirname is the current directory path, sth like /home/ubuntu/workspace/YelpCamp
+app.use(express.static(__dirname + '/public')); //dirname is the current directory path, sth like /home/ubuntu/workspace/ChinaInYourEyes
 app.use(methodOverride('_method'));
 app.use(flash());
 

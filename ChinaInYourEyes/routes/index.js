@@ -18,7 +18,7 @@ router.post('/register', function(req, res) {
         if (!err) {
             console.log("SUCCESS: create a new user and login"); 
             passport.authenticate('local')(req, res, function() {
-                req.flash('success', 'Welcome to YelpCamp, ' + user.username);
+                req.flash('success', 'Welcome to China in your eyes, ' + user.username);
                 res.redirect('/landscapes');
             });
         } else {
@@ -37,8 +37,13 @@ router.get('/login', function(req, res){
 //use middleware to handle login logic 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/landscapes',
-    failureRedirect: '/login'
+    failureRedirect: '/loginFailure'
 }), function(req, res){
+});
+
+router.get('/loginFailure',function(req, res) {
+    req.flash('error', 'username/password incorrect');
+    res.redirect('/login');
 });
 
 router.get('/logout', function(req, res) {

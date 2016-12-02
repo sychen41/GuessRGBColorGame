@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 //just a pattern, still flexible
-var campSchema = new mongoose.Schema({
+var landscapeSchema = new mongoose.Schema({
     name: String,
     image: String,
     description: String,
@@ -20,4 +20,4 @@ var campSchema = new mongoose.Schema({
 });
 
 //create an object model with variables(like: name, image) and methods(like: CRUD methods)
-module.exports = mongoose.model('Landscape', campSchema);
+module.exports = mongoose.model('Landscape', landscapeSchema);

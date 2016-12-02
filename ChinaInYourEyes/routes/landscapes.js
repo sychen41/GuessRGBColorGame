@@ -68,7 +68,7 @@ router.post('/', middleware.isLoggedIn, function(req, res) {
             id: req.user._id,
             username: req.user.username
         }
-    }, function(err, newlyCreatedCampg) {
+    }, function(err, newlyCreatedlandscape) {
         if(!err) {
             console.log('SUCCESS: new landscape inserted to db');
             res.redirect('/landscapes');
@@ -95,7 +95,7 @@ router.get('/:id/edit', middleware.checkLandscapeOwnership, function(req, res){
 
 //Update route
 router.put('/:id', middleware.checkLandscapeOwnership, function(req, res){
-    Landscape.findByIdAndUpdate(req.params.id, req.body.landscape, function(err, updatedCamp){
+    Landscape.findByIdAndUpdate(req.params.id, req.body.landscape, function(err, updatedLandscape){
         if(!err) {
             console.log('SUCCESS: update a landscape');
             res.redirect('/landscapes/'+req.params.id);
