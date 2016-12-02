@@ -2,9 +2,9 @@
     
     <div class='container'>
         <div class='row'>
-            <h1 style='text-align: center'>add a new comment to <%= campground.name %></h1>
+            <h1 style='text-align: center'>add a new comment to <%= landscape.name %></h1>
             <div style='width: 30%; margin: 30px auto;'>
-                <form action='/campgrounds/<%= campground._id %>/comments' method='post'>
+                <form action='/landscapes/<%= landscape._id %>/comments' method='post'>
                     <div class='form-group'>
                         <input class='form-control' type='text' name='comment[text]' placeholder='text'>
                     </div>
@@ -12,7 +12,7 @@
                         <button class='btn btn-lg btn-primary btn-block' type='submit'>Submit</button>
                     </div>
                 </form>
-                <a href='/campgrounds'>Go Back</a>
+                <a href='/landscapes'>Go Back</a>
             </div>
             
         </div>

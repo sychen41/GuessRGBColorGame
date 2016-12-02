@@ -12,15 +12,15 @@
         </div>
         <div class='col-md-9'>
             <div class='thumbnail'>
-                <img class='img-responsive' src='<%= campground.image %>'>
+                <img class='img-responsive' src='<%= landscape.image %>'>
                 <div class='caption-full'>
                     <h4 class='pull-right'>$8/night</h4>
-                    <h4><a><%= campground.name %></a></h4>
-                    <p><%= campground.description %></p>
-                    <p><em>Submitted By <%= campground.author.username %></em></p>
-                    <% if(currentUser && campground.author.id.equals(currentUser._id)) { %>
-                    <a class='btn btn-xs btn-warning' href='/campgrounds/<%= campground._id %>/edit'>Edit</a>
-                    <form id='delete-form' action='/campgrounds/<%= campground._id %>?_method=delete' method='post'>
+                    <h4><a><%= landscape.name %></a></h4>
+                    <p><%= landscape.description %></p>
+                    <p><em>Submitted By <%= landscape.author.username %></em></p>
+                    <% if(currentUser && landscape.author.id.equals(currentUser._id)) { %>
+                    <a class='btn btn-xs btn-warning' href='/landscapes/<%= landscape._id %>/edit'>Edit</a>
+                    <form id='delete-form' action='/landscapes/<%= landscape._id %>?_method=delete' method='post'>
                         <button class='btn btn-xs btn-danger'>Delete</button>
                     </form>
                     <% } %>
@@ -28,18 +28,18 @@
             </div>
             <div class='well'>
                 <div class='pull-right'>
-                    <a class='btn btn-success' href='/campgrounds/<%= campground._id %>/comments/new'>Add New Comment</a>
+                    <a class='btn btn-success' href='/landscapes/<%= landscape._id %>/comments/new'>Add New Comment</a>
                 </div>
                 <hr>
-                <% campground.comments.forEach(function(comment) { %>
+                <% landscape.comments.forEach(function(comment) { %>
                     <div class='row'>
                         <div class='col-md-12'>
                             <strong><%= comment.author.username %></strong>
                             <span class='pull-right'>2 days ago</span>
                             <p><%= comment.text %></p>
                             <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
-                            <a class='btn btn-xs btn-warning' href='/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit'>Edit</a>
-                            <form id='delete-form' action='/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=delete' method='post'>
+                            <a class='btn btn-xs btn-warning' href='/landscapes/<%= landscape._id %>/comments/<%= comment._id %>/edit'>Edit</a>
+                            <form id='delete-form' action='/landscapes/<%= landscape._id %>/comments/<%= comment._id %>?_method=delete' method='post'>
                                 <input class='btn btn-xs btn-danger' type='submit' value='Delete'>
                             </form>
                             <% } %>

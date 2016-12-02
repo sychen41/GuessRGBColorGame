@@ -3,21 +3,21 @@
     <div class='container'>
         <header class='jumbotron'>
             <div class='container'> <!--add this can keep the distance so that after the scaling the window, the following content won't be closely against the window boarder -->
-                <h1>Welcome to Campgrounds</h1>
-                <p>Add your favorite places <strong>(Website still under construction)</strong></p>
-                <p><a class='btn btn-primary btn-lg' href='/campgrounds/new'>add a new campground</a></p>
+                <h1>Welcome to China In Your Eyes</h1>
+                <p>Add your favorite landscape</p>
+                <p><a class='btn btn-primary btn-lg' href='/landscapes/new'>add a new landscape</a></p>
             </div>
         </header>
         
         <!--
         -->
         <div class='row text-center' style='display: flex; flex-wrap: wrap;'> <!--add this tyle can help deal with images with different length/width ratio -->
-            <% campgrounds.forEach(function(campground){ %>
+            <% landscapes.forEach(function(landscape){ %>
                 <div class='col-md-3 col-sm-6'>
                     <div class='thumbnail'>
-                        <img src='<%= campground.image %>'> 
-                        <div class='caption'><%= campground.name %></div>
-                        <p><a href='/campgrounds/<%= campground._id %>' class='btn btn-info'>More Info</a></p>
+                        <img src='<%= landscape.image %>'>
+                        <div class='caption'><%= landscape.name %></div>
+                        <p><a href='/landscapes/<%= landscape._id %>' class='btn btn-info'>More Info</a></p>
                     </div>
                 </div>
             <% }); %>

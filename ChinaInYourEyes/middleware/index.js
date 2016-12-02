@@ -1,29 +1,29 @@
-var Campground = require('../models/campground');
+var Landscape = require('../models/landscape');
 var Comment = require('../models/comment');
 
 var middlewareObj = {};
 
-middlewareObj.checkCampgroundOwnership = function(req, res, next) {
+middlewareObj.checkLandscapeOwnership = function(req, res, next) {
     if(req.isAuthenticated()){
-        Campground.findById(req.params.id, function(err, foundCampground) {
+        Landscape.findById(req.params.id, function(err, foundLandscape) {
             if(!err) {
-                console.log('SUCCESS: retrieve the campground for ownership checking');
-                //req.user._id is a string, foundCampground.author.id is a mongoose object
-                //see the declaration in models/campground.js, so we can't use ===
-                //if(foundCampground.author.id === req.user._id)
-                if(foundCampground.author.id.equals(req.user._id)) {//this .equals is written by mongoose
-                    console.log('User authorization: user owns the campground');
+                console.log('SUCCESS: retrieve the landscape for ownership checking');
+                //req.user._id is a string, foundLandscape.author.id is a mongoose object
+                //see the declaration in models/landscape.js, so we can't use ===
+                //if(foundLandscape.author.id === req.user._id)
+                if(foundLandscape.author.id.equals(req.user._id)) {//this .equals is written by mongoose
+                    console.log('User authorization: user owns the landscape');
                     next(); 
                 }
                 else {
                     req.flash('error', "You don't have permission to do that");
-                    console.log('WARNING: user authorization: user DOES NOT own the campground');
+                    console.log('WARNING: user authorization: user DOES NOT own the landscape');
                     res.redirect('back');
                 }
             } else {
-                console.log('FAILED: retrieve the campground for ownership checking');
+                console.log('FAILED: retrieve the landscape for ownership checking');
                 console.log(err); 
-                req.flash('error', 'Campground not found');
+                req.flash('error', 'Landscape not found');
                 res.redirect('back');
             }
         });

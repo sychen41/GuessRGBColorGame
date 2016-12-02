@@ -1,19 +1,19 @@
 var express = require('express');
 var router = express.Router({mergeParams: true}); //without merge, id will not be passed to this file 
-var Campground = require('../models/campground');
+var Landscape = require('../models/landscape');
 var Comment = require('../models/comment');
 var middleware = require('../middleware');//index.js is a special name, here the statement is equivalent to require('../middleware/index.js')
 
 //Comments routes
-//NEW route: add new comment to a campground
-//router.get('/campgrounds/:id/comments/new', isLoggedIn, function(req, res){
+//NEW route: add new comment to a landscape
+//router.get('/landscapes/:id/comments/new', isLoggedIn, function(req, res){
 router.get('/new', middleware.isLoggedIn, function(req, res){
-    Campground.findById(req.params.id, function(err, foundCampground){
+    Landscape.findById(req.params.id, function(err, foundLandscape){
         if(!err) {
-            console.log('SUCCESS: find campground by id for commenting');
-            res.render('comments/new',{campground: foundCampground}); 
+            console.log('SUCCESS: find landscape by id for commenting');
+            res.render('comments/new',{landscape: foundLandscape});
         } else {
-            console.log('FAILED: find campground by id for commenting');
+            console.log('FAILED: find landscape by id for commenting');
             console.log(err); 
         }
     });
@@ -22,11 +22,11 @@ router.get('/new', middleware.isLoggedIn, function(req, res){
 //CREATE route: create comment. The reason that we also need to add isLoggedIn
 //here is because that someone could use tools like postman to send a post 
 //request to this link without login, and we don't want that happen
-//router.post('/campgrounds/:id/comments', isLoggedIn, function(req, res){
+//router.post('/landscapes/:id/comments', isLoggedIn, function(req, res){
 router.post('/', middleware.isLoggedIn, function(req, res){
-    Campground.findById(req.params.id, function(err, campground) {
+    Landscape.findById(req.params.id, function(err, landscape) {
         if(!err) {
-            console.log('SUCCESS: retrieve the campground for adding comment');
+            console.log('SUCCESS: retrieve the landscape for adding comment');
             var newComment = {
                 text: req.body.comment.text, //because we use comment[text] is the comments/new.ejs, so comment is an object
                 author: {
@@ -36,24 +36,24 @@ router.post('/', middleware.isLoggedIn, function(req, res){
             };
             Comment.create(newComment, function(err, comment){
                 if(!err) {
-                    console.log('SUCCESS: create new comment to be added to a campground');
-                    campground.comments.push(comment);
-                    campground.save(function(err){
+                    console.log('SUCCESS: create new comment to be added to a landscape');
+                    landscape.comments.push(comment);
+                    landscape.save(function(err){
                         if(!err) {
-                            console.log('SUCCESS: add comment to campground');
+                            console.log('SUCCESS: add comment to landscape');
                             req.flash('success', 'Successfully added a comment');
                         } else {
-                            console.log('FAILED: add comment to campground');
+                            console.log('FAILED: add comment to landscape');
                         }
                     });
-                    res.redirect('/campgrounds/'+req.params.id); 
+                    res.redirect('/landscapes/'+req.params.id);
                 } else {
-                    console.log('FAILED: create new comment to be added to a campground');
+                    console.log('FAILED: create new comment to be added to a landscape');
                     console.log(err); 
                 }
             });    
         } else {
-            console.log('FAILED: retrieve the campground for adding comment');
+            console.log('FAILED: retrieve the landscape for adding comment');
             console.log(err);
         }
     }); 
@@ -67,7 +67,7 @@ router.get('/:comment_id/edit', middleware.checkCommentOwnership, function(req, 
             res.render('comments/edit', 
                 {
                     comment: foundComment,
-                    campground_id: req.params.id
+                    landscape_id: req.params.id
                 }
             );
         } else {
@@ -83,7 +83,7 @@ router.put('/:comment_id', middleware.checkCommentOwnership, function(req, res) 
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
         if(!err) {
             console.log('SUCCESS: update comment');
-            res.redirect('/campgrounds/'+req.params.id);
+            res.redirect('/landscapes/'+req.params.id);
         } else {
             console.log('FAILED: update comment');
             res.redirect('back');
@@ -96,7 +96,7 @@ router.delete('/:comment_id', middleware.checkCommentOwnership, function(req, re
     Comment.findByIdAndRemove(req.params.comment_id, function(err){
         if(!err) {
             console.log('SUCCESS: delete comment');
-            res.redirect('/campgrounds/' + req.params.id);
+            res.redirect('/landscapes/' + req.params.id);
         } else {
             console.log('SUCCESS: delete comment');
             console.log(err);

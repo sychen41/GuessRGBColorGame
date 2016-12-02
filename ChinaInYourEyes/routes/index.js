@@ -19,7 +19,7 @@ router.post('/register', function(req, res) {
             console.log("SUCCESS: create a new user and login"); 
             passport.authenticate('local')(req, res, function() {
                 req.flash('success', 'Welcome to YelpCamp, ' + user.username);
-                res.redirect('/campgrounds');
+                res.redirect('/landscapes');
             });
         } else {
             console.log("FAILED: create a new user and login"); 
@@ -36,7 +36,7 @@ router.get('/login', function(req, res){
 
 //use middleware to handle login logic 
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/campgrounds',
+    successRedirect: '/landscapes',
     failureRedirect: '/login'
 }), function(req, res){
 });
@@ -44,7 +44,7 @@ router.post('/login', passport.authenticate('local', {
 router.get('/logout', function(req, res) {
     req.logout(); //logout() provided by passport
     req.flash('success', 'Logged you out');
-    res.redirect('/campgrounds');
+    res.redirect('/landscapes');
 });
 
 module.exports = router;

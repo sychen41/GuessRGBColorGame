@@ -5,18 +5,19 @@ var express         = require('express'),
     methodOverride  = require('method-override'),
     passport        = require('passport'),
     localStrategy   = require('passport-local'), 
-    Campground      = require('./models/campground'),
+    Landscape       = require('./models/landscape'),
     Comment         = require('./models/comment'),
     User            = require('./models/user'),
     flash           = require('connect-flash'),
     seedDB          = require('./seeds');
     
 var commentRoutes       = require('./routes/comments'),
-    campgroundRoutes    = require('./routes/campgrounds'),
-    indexRoutes          = require('./routes/index'); 
-    
-    
-mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost/yelp_camp');
+    landscapeRoutes    = require('./routes/landscapes'),
+    indexRoutes          = require('./routes/index');
+
+
+mongoose.connect('mongodb://admin:admin@ds111748.mlab.com:11748/ycdb');
+//mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost/yelp_camp');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
@@ -53,9 +54,9 @@ app.use(passUserInfoToAllResponses);
 
 //routes
 app.use('/', indexRoutes); //which is the same as app.use(indexRoutes);
-app.use('/campgrounds', campgroundRoutes);
-app.use('/campgrounds/:id/comments', commentRoutes);
+app.use('/landscapes', landscapeRoutes);
+app.use('/landscapes/:id/comments', commentRoutes);
 
 app.listen('8082', process.env.IP, function(){
-    console.log('yelpcamp started');
+    console.log('China In Your Eyes started');
 });

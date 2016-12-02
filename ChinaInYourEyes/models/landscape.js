@@ -20,4 +20,4 @@ var campSchema = new mongoose.Schema({
 });
 
 //create an object model with variables(like: name, image) and methods(like: CRUD methods)
-module.exports = mongoose.model('Campground', campSchema);
+module.exports = mongoose.model('Landscape', campSchema);
