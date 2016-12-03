@@ -1,4 +1,4 @@
-# Web Developer Boot Camp Projects (On-going)
+# Web Developer Boot Camp Projects
 Demo Link: https://udel.edu/~sychen
 
 Full stack app
