@@ -16,7 +16,10 @@ var landscapeSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Comment'
         }
-    ]
+    ],
+    location: String,
+    lat: String,
+    lng: String
 });
 
 //create an object model with variables(like: name, image) and methods(like: CRUD methods)

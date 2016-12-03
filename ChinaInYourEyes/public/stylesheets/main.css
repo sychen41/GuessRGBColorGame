@@ -20,3 +20,19 @@
     display: inline;
 }
 
+#map {
+    /*max-width: 200px;*/
+    width: 100%;
+    height: 200px;
+    margin: 10px auto;
+}
+
+.good-location {
+    background-color: green;
+    border: none;
+}
+
+.bad-location {
+    background-color: red;
+    border: none;
+}

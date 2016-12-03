@@ -61,6 +61,7 @@ router.get('/:id', function(req, res) {
 
 //CREATE route: add new landscape to db
 router.post('/', middleware.isLoggedIn, function(req, res) {
+    console.log(JSON.stringify(req.body));
     Landscape.create({
         name: req.body.name,
         image: req.body.image,
@@ -68,7 +69,10 @@ router.post('/', middleware.isLoggedIn, function(req, res) {
         author: {
             id: req.user._id,
             username: req.user.username
-        }
+        },
+        location: req.body.location,
+        lat: req.body.lat,
+        lng: req.body.lng
     }, function(err, newlyCreatedlandscape) {
         if(!err) {
             console.log('SUCCESS: new landscape inserted to db');

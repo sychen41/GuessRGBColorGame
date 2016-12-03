@@ -19,6 +19,7 @@ var commentRoutes       = require('./routes/comments'),
 mongoose.connect('mongodb://admin:admin@ds111748.mlab.com:11748/ycdb');
 //mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost/ciye');
 
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public')); //dirname is the current directory path, sth like /home/ubuntu/workspace/ChinaInYourEyes
@@ -48,6 +49,8 @@ function passUserInfoToAllResponses(req, res, next){
     res.locals.success = req.flash('success');
     res.locals.info = req.flash('info');
     res.locals.currentPath = req.path;
+    res.locals.gMapAPIKey = process.env.GMAPAPIKEY;
+    res.locals.geoAPIKey = process.env.GEOAPIKEY;
     next();
 }
 app.use(passUserInfoToAllResponses);

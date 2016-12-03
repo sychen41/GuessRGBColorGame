@@ -1,23 +1,30 @@
 <% include ../partials/header %>
-
 <div class='container'>
     <div class='row'>
-        <div class='col-md-3'>
-            <p class='lead'>Menu(under construction)</p>
-            <div class='list-group'>
-                <li class='list-group-item active'>Info 1</li>
-                <li class='list-group-item'>Info 2</li>
-                <li class='list-group-item'>Info 3</li>
+        <div class='col-md-3 col-sm-12'>
+            <div>
+                <p class='lead'>Menu(under construction)</p>
+                <div class='list-group'>
+                    <li class='list-group-item active'>Info 1</li>
+                    <li class='list-group-item'>Info 2</li>
+                    <li class='list-group-item'>Info 3</li>
+                </div>
+            </div>
+            <div>
+                <h4>Location</h4>
+                <div id="map"></div>
             </div>
         </div>
-        <div class='col-md-9'>
+        <div class='col-md-9 col-sm-12'>
             <div class='thumbnail'>
                 <img class='img-responsive' src='<%= landscape.image %>'>
                 <div class='caption-full'>
-                    <!--<h4 class='pull-right'>$8</h4>-->
+                    <h4 class='pull-right'><em>Location: <%= landscape.location %></em></h4>
                     <h4><a><%= landscape.name %></a></h4>
                     <p><%= landscape.description %></p>
                     <p><em>Submitted By <%= landscape.author.username %></em></p>
+                    <span id="lat" class="hidden"><%= landscape.lat %></span>
+                    <span id="lng" class="hidden"><%= landscape.lng %></span>
                     <% if(currentUser && landscape.author.id.equals(currentUser._id)) { %>
                     <a class='btn btn-xs btn-warning' href='/landscapes/<%= landscape._id %>/edit'>Edit</a>
                     <form id='delete-form' action='/landscapes/<%= landscape._id %>?_method=delete' method='post'>
@@ -50,6 +57,27 @@
         </div>
     </div>
 </div>
-
+<script>
+    function initMap() {
+        var lat = Number(document.querySelector('#lat').innerHTML);
+        var lng = Number(document.querySelector('#lng').innerHTML);
+        if(!(lat===0 && lng===0)){
+            var uluru = {lat: lat, lng: lng};
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 4,
+                center: uluru
+            });
+            var marker = new google.maps.Marker({
+                position: uluru,
+                map: map
+            });
+        } else {
+            document.querySelector('#map').innerHTML = 'Oops! the uploader of this landscape did not provide a location'
+        }
+    }
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=<%= gMapAPIKey %>&callback=initMap">
+</script>
 
 <% include ../partials/footer %>
