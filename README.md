@@ -2,7 +2,7 @@
 Demo Link: https://udel.edu/~sychen
 
 Full stack app
-* Yelp Camp (In progress)(library: Node.js, Express.js, mongoose, passport, Bootstrap, EJS)
+* China In Your Eyes (In progress)(library: Node.js, Express.js, mongoose, passport, Bootstrap, Google Map / Geocoding API, EJS)
 * Blog App (library: Node.js, Express.js, mongoose, Semantic UI, EJS)
 
 Pure front-end
