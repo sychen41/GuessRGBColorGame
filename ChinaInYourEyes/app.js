@@ -15,10 +15,7 @@ var commentRoutes       = require('./routes/comments'),
     landscapeRoutes    = require('./routes/landscapes'),
     indexRoutes          = require('./routes/index');
 
-//should NOT show my db username and password, but who really cares to mess it up ?
-mongoose.connect('mongodb://admin:admin@ds111748.mlab.com:11748/ycdb');
-//mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost/ciye');
-
+mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost/ciye');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');

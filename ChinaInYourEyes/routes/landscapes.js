@@ -51,7 +51,19 @@ router.get('/:id', function(req, res) {
     Landscape.findById(req.params.id).populate('comments').exec(function(err, foundLandscape){
         if(!err) {
             console.log('SUCCESS: retrieve the user-chosen landscape from db and populate it with comment');
-            res.render('landscapes/show', {landscape: foundLandscape});
+            var commentsElapsedDays = [];
+            var today = new Date();
+            foundLandscape.comments.forEach(function(comment){
+                var elapsed = today.getTime() - comment.dateCreated.getTime();
+                var elapsedDays = Math.floor(elapsed / (1000*60*60*24));
+                if (elapsedDays === 0)
+                    commentsElapsedDays.push('today');
+                else if (elapsedDays === 1)
+                    commentsElapsedDays.push('yesterday');
+                else
+                    commentsElapsedDays.push(elapsedDays + ' days ago');
+            });
+            res.render('landscapes/show', {landscape: foundLandscape, commentsElapsedDays: commentsElapsedDays});
         } else {
             console.log('FAILED: retrieve the user-chosen landscape from db');
             console.log(err);

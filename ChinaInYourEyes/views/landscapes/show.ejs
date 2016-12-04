@@ -38,18 +38,21 @@
                     <a class='btn btn-success' href='/landscapes/<%= landscape._id %>/comments/new'>Add New Comment</a>
                 </div>
                 <hr>
+                <% var i = 0; %>
                 <% landscape.comments.forEach(function(comment) { %>
                     <div class='row'>
                         <div class='col-md-12'>
                             <strong><%= comment.author.username %></strong>
-                            <!--<span class='pull-right'>2 days ago</span>-->
-                            <p><%= comment.text %></p>
+                            <span class='pull-right' id="daysAgo"><em><%= commentsElapsedDays[i] %></em></span>
+                            <% i++; %>
+                            <p id="commentP"><%= comment.text %></p>
                             <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
                             <a class='btn btn-xs btn-warning' href='/landscapes/<%= landscape._id %>/comments/<%= comment._id %>/edit'>Edit</a>
                             <form id='delete-form' action='/landscapes/<%= landscape._id %>/comments/<%= comment._id %>?_method=delete' method='post'>
                                 <input class='btn btn-xs btn-danger' type='submit' value='Delete'>
                             </form>
                             <% } %>
+                            <hr id="commentHR">
                         </div>
                     </div>
                 <% }); %>

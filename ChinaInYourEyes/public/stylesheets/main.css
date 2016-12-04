@@ -1,3 +1,11 @@
+/*
+body {
+    background: url(https://www.walldevil.com/wallpapers/a11/background-backgrounds-abstract-advertisements-presentations-web-blue.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+*/
+
 .thumbnail img {
     width: 100%;
 }
@@ -35,4 +43,13 @@
 .bad-location {
     background-color: red;
     border: none;
+}
+
+#commentHR {
+    border-top: 1px solid #8c8b8b;
+    margin: 6px 0;
+}
+
+#commentP {
+    margin: 0;
 }
