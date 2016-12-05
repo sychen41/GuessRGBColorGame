@@ -9,7 +9,7 @@
                         <input class='form-control' type='text' name='name' placeholder='name'>
                     </div>
                     <div class='form-group'>
-                        <input class='form-control' type='text' name='image' placeholder='image url'>
+                        <input class='form-control' type='text' name='image' pattern="https?://.+" title='image url should start with "https://" or "http://"' placeholder='image url'>
                     </div>
                     <div class='form-group'>
                         <textarea class='form-control' rows='5' name="description" placeholder="description"></textarea>
@@ -43,7 +43,7 @@
                 geocoder.geocode({'address': address.value, 'region': 'CN'}, function (results, status) {
                     if (status === google.maps.GeocoderStatus.OK) {
                         //inputString = address.value.split('(')[0];
-                        address.value = results[0].formatted_address;
+                        address.value = results[0].formatted_address
                         lat.value = results[0].geometry.location.lat();
                         lng.value = results[0].geometry.location.lng();
                         addrValidateBtn.classList.remove('bad-location');

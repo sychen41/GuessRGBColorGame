@@ -9,7 +9,7 @@
                         <input class='form-control' type='text' name='landscape[name]' value='<%= landscape.name %>'>
                     </div>
                     <div class='form-group'>
-                        <input class='form-control' type='text' name='landscape[image]' value='<%= landscape.image %>'>
+                        <input class='form-control' type='text' name='landscape[image]' pattern="https?://.+" title='image url should start with "https://" or "http://"' value='<%= landscape.image %>'>
                     </div>
                     <div class='form-group'>
                         <textarea class='form-control' rows='5' name="landscape[description]"><%= landscape.description %>></textarea>

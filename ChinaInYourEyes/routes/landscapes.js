@@ -40,6 +40,7 @@ router.get('/:id', function(req, res) {
     Landscape.findById(req.params.id).populate('comments').exec(function(err, foundLandscape){
         if(!err) {
             console.log('SUCCESS: retrieve the user-chosen landscape from db and populate it with comment');
+            //calculate ? days ago for each comment
             var commentsElapsedDays = [];
             var today = new Date();
             foundLandscape.comments.forEach(function(comment){
@@ -52,6 +53,7 @@ router.get('/:id', function(req, res) {
                 else
                     commentsElapsedDays.push(elapsedDays + ' days ago');
             });
+            //get prevId and nextId for navigation
             var thisId = foundLandscape._id.toString();
             var indexOfthisId = landscapesAllIds.indexOf(thisId);
             //console.log('length: ' + landscapesAllIds.length);
@@ -90,13 +92,35 @@ router.post('/', middleware.isLoggedIn, function(req, res) {
         lng: req.body.lng
     }, function(err, newlyCreatedlandscape) {
         if(!err) {
-            landscapesAllIds.push(newlyCreatedlandscape._id.toString());
             console.log('SUCCESS: new landscape inserted to db');
-            res.redirect('/landscapes');
+            //res.redirect('/landscapes');
+            //You can't just push newlyCreatedlandscape._id to the landscapesAllIds
+                //because this new landscape is NOT necessarily the last one in database
+            //So we have to update the landscapesAllIds (and might as well render the landscapes/index page so
+                //we don't need to redirect to the landscape's GET route and pull data from db again)
+            Landscape.find({},function(err, landscapes){
+                if(!err) {
+                    landscapesAllIds = [];
+                    landscapes.forEach(function (landscape) {
+                        landscapesAllIds.push(landscape._id.toString());
+                    });
+                    console.log(landscapesAllIds.length);
+                    console.log('SUCCESS: retrieve landscapes from db (invoked by landscape\'s POST route)');
+                    res.render('landscapes/index', {
+                        landscapes: landscapes
+                    });
+                }
+                else {
+                    console.log('FAILED: retrieve landscapes from db (invoked by landscape\' POST route)');
+                    console.log(err);
+                    res.redirect('back');
+                }
+            });
         } else {
             console.log('FAILED: new landscape inserted to db');
             console.log(err);
-            //do sth to tell users and have them to post again
+            //todo: do sth to tell users and have them to post again
+            res.redirect('back');
         }
     });
 });
@@ -119,7 +143,22 @@ router.put('/:id', middleware.checkLandscapeOwnership, function(req, res){
     Landscape.findByIdAndUpdate(req.params.id, req.body.landscape, function(err, updatedLandscape){
         if(!err) {
             console.log('SUCCESS: update a landscape');
-            res.redirect('/landscapes/'+req.params.id);
+            //The updatedLandscape might not be at the old location in the database
+                //Hence we have to update the landscapesAllIds so that ids of its new prev and next landscapes are updated
+            Landscape.find({},function(err, landscapes){
+                if(!err) {
+                    console.log('SUCCESS: retrieve landscapes from db to update the landscapesAllIds (invoked by landscape\'s UPDATE route)');
+                    landscapesAllIds = [];
+                    landscapes.forEach(function (landscape) {
+                        landscapesAllIds.push(landscape._id.toString());
+                    });
+                }
+                else {
+                    console.log('FAILED: retrieve landscapes from db to update the landscapesAllIds (invoked by landscape\'s UPDATE route)');
+                    console.log(err);
+                }
+                res.redirect('/landscapes/'+req.params.id);
+            });
         } else {
             console.log('FAILED: update a landscape');
             console.log(err);
