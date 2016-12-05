@@ -4,9 +4,17 @@ var Landscape = require('../models/landscape');
 var Comment = require('../models/comment');
 var middleware = require('../middleware');//index.js is a special name, here the statement is equivalent to require('../middleware/index.js')
 //INDEX(目录) route: show all landscapes
+var landscapesAllIds = [];
+var firstTimeLoad = true;
 router.get('/', function(req, res){
     Landscape.find({},function(err, landscapes){
         if(!err) {
+            if (firstTimeLoad) {
+                landscapes.forEach(function (landscape) {
+                    landscapesAllIds.push(landscape._id.toString());
+                });
+                firstTimeLoad = false;
+            }
             console.log('SUCCESS: retrieve landscapes from db');
             res.render('landscapes/index', {
                 landscapes: landscapes
@@ -29,25 +37,6 @@ router.get('/new', middleware.isLoggedIn, function(req, res){
 //note: this route MUST be after the NEW route, otherwise, 
 //the 'new' in /XXXX/new will be treated as an id
 router.get('/:id', function(req, res) {
-    /*
-    Landscape.findById(req.params.id, function(err, foundLandscape) {
-        if(!err) {
-            console.log('SUCCESS: retrieve the user-chosen landscape from db');
-            foundLandscape.populate('comments').exec(function(err, landscape){
-                if(!err) {
-                    console.log('SUCCESS: populate comments for the landscape');
-                    res.render('show', {landscape: landscape});
-                } else {
-                    console.log('FAILED: comments populated for the landscape');
-                    console.log(err);
-                }
-            });
-        } else {
-            console.log('FAILED: retrieve the user-chosen landscape from db');
-            console.log(err);
-        }
-    });
-    */
     Landscape.findById(req.params.id).populate('comments').exec(function(err, foundLandscape){
         if(!err) {
             console.log('SUCCESS: retrieve the user-chosen landscape from db and populate it with comment');
@@ -63,7 +52,21 @@ router.get('/:id', function(req, res) {
                 else
                     commentsElapsedDays.push(elapsedDays + ' days ago');
             });
-            res.render('landscapes/show', {landscape: foundLandscape, commentsElapsedDays: commentsElapsedDays});
+            var thisId = foundLandscape._id.toString();
+            var indexOfthisId = landscapesAllIds.indexOf(thisId);
+            //console.log('length: ' + landscapesAllIds.length);
+            //console.log('index: ' + indexOfthisId);
+            //if this landscape is the 1st one, set its prev to 'none', otherwise to its previous id
+            var prevId = indexOfthisId === 0 ? 'none' : landscapesAllIds[indexOfthisId-1];
+            //if this landscape is the last one, set its next to 'none', otherwise to its next id
+            var nextId = indexOfthisId === landscapesAllIds.length - 1 ? 'none' : landscapesAllIds[indexOfthisId+1];
+            res.render('landscapes/show',
+                {
+                    landscape: foundLandscape,
+                    commentsElapsedDays: commentsElapsedDays,
+                    prevId: prevId,
+                    nextId: nextId
+                });
         } else {
             console.log('FAILED: retrieve the user-chosen landscape from db');
             console.log(err);
@@ -87,6 +90,7 @@ router.post('/', middleware.isLoggedIn, function(req, res) {
         lng: req.body.lng
     }, function(err, newlyCreatedlandscape) {
         if(!err) {
+            landscapesAllIds.push(newlyCreatedlandscape._id.toString());
             console.log('SUCCESS: new landscape inserted to db');
             res.redirect('/landscapes');
         } else {
@@ -128,6 +132,9 @@ router.put('/:id', middleware.checkLandscapeOwnership, function(req, res){
 router.delete('/:id', middleware.checkLandscapeOwnership, function(req, res){
     Landscape.findByIdAndRemove(req.params.id, function(err, removedLandscape) {
         if(!err) {
+            var indexOfRemovedLandscape = landscapesAllIds.indexOf(removedLandscape._id.toString());
+            console.log(indexOfRemovedLandscape);
+            landscapesAllIds.splice(indexOfRemovedLandscape, 1);
             console.log('SUCCESS: delete a landscape');
             removedLandscape.comments.forEach(function(comment){
                 Comment.findByIdAndRemove(comment, function(err, removedComment){

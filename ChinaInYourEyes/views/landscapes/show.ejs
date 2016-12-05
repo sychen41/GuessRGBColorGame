@@ -3,12 +3,23 @@
     <div class='row'>
         <div class='col-md-3 col-sm-12'>
             <div>
+                <ul class="nav nav-pills nav-stacked">
+                    <% if (prevId !== 'none') { %>
+                    <li role="presentation"><a href='/landscapes/<%= prevId %>'>Previous landscape </a></li>
+                    <% } %>
+                    <% if (nextId !== 'none') { %>
+                    <li role="presentation"><a href='/landscapes/<%= nextId %>'>Next landscape </a></li>
+                    <% } %>
+                    <li role="presentation"><a href='/landscapes'>All landscapes</a></li>
+                </ul>
+                <!--
                 <p class='lead'>Menu(under construction)</p>
                 <div class='list-group'>
                     <li class='list-group-item active'>Info 1</li>
                     <li class='list-group-item'>Info 2</li>
                     <li class='list-group-item'>Info 3</li>
                 </div>
+                -->
             </div>
             <div>
                 <h4>Location</h4>

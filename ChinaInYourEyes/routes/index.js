@@ -42,7 +42,7 @@ router.post('/login', passport.authenticate('local', {
 });
 
 router.get('/loginFailure',function(req, res) {
-    req.flash('error', 'username/password incorrect');
+    req.flash('error', 'username/password incorrect (username and password are both case sensitive)');
     res.redirect('/login');
 });
 
