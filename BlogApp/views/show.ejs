@@ -12,7 +12,15 @@
             <span><%= blog.dateCreated.toDateString() %></span>
         </div>
         <div class='description'>
-            <p><%- blog.body %></p><!-- note we use %- not %=, because we want the html tags in the blog body to be evaluated-->
+            <p><%- blog.body %></p><!-- note we use %- not %=, because we want to send exactly
+                                     the content of blog.body, not valid html string. for instance:
+                                      if the blog.body is <em>haha</em>, by using '%-', we will send exactly
+                                       the content, and the browser side will evaluate the <em> as a valid html
+                                       tag, and we will see 'haha' being emphasized on the web page.
+                                       However, if we instead use '%=', the EJS will transform '<' to '&lt;' and send it
+                                       instead. When browser see this '&lt;', apperantly it's not a html tag, it's just a
+                                         representation for the angle bracket '<', so will simply display a '<', and we will
+                                         see '<em>haha</em>' as a whole on the web page-->
         </div>
         
         <a class='ui blue basic button' href='/blogs/<%= blog._id %>/edit'>Edit</a>
