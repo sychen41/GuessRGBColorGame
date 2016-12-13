@@ -1,0 +1,20 @@
+<a href='#/'>Back to search</a>
+<div>
+    Forecast for {{ city }}
+</div>
+<hr>
+<a class='btn btn-primary' href='#forecast/3' ng-class="{ 'active': days === '3' }">3 days</a>
+<a class='btn btn-primary' href='#forecast/5' ng-class="{ 'active': days === '5' }">5 days</a>
+<a class='btn btn-primary' href='#forecast/7' ng-class="{ 'active': days === '7' }">7 days</a>
+<hr>
+<div ng-repeat='w in weatherResult.list'>
+    <div class='row'>
+        <div class='col-md-12'>
+            <weather-report weather-day='w'
+                            convert-to-standard1='convertToCelsius(kelvinDegree)'
+                            convert-to-standard2='convertToFahrenheit(kelvinDegree)'
+                            convert-to-date='convertToDate(date)'
+                            date-format='MMM d, yyyy'></weather-report>    
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<div class='panel panel-default'>
+    <div class='panel-heading'>
+        <h3 class='panel-title'>{{ convertToDate({date: weatherDay.dt}) | date: dateFormat }}</h3>
+    </div>
+    <div class='panel-body'>
+        Daytime temperature : 
+        {{ convertToStandard1({kelvinDegree: weatherDay.temp.max}) }} / 
+        {{ convertToStandard1({kelvinDegree: weatherDay.temp.min}) }}&deg;C 
+        ({{ convertToStandard2({kelvinDegree: weatherDay.temp.max}) }} / 
+        {{ convertToStandard2({kelvinDegree: weatherDay.temp.min}) }}&deg;F)
+    </div>
+</div>

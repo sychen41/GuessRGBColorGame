@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us" ng-app='weatherApp'>
+<html lang="en-us" ng-app="weatherApp">
     <head>
         <title>AngularJS Weather Forecast SPA</title>
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -7,6 +7,7 @@
 
         <!-- load bootstrap and fontawesome via CDN -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+ 
         <style>
             html, body, input, select, textarea
             {
@@ -15,10 +16,16 @@
         </style>
         
         <!-- load angular via CDN -->
-        <script src="https://code.angularjs.org/1.6.0-rc.2/angular.min.js"></script>
-        <script src="https://code.angularjs.org/1.6.0-rc.2/angular-route.min.js"></script>
-        <script src="https://code.angularjs.org/1.6.0-rc.2/angular-resource.min.js"></script>
-        <script src="app.js"></script>
+        <script type='text/javascript' src="https://code.angularjs.org/1.5.9/angular.min.js"></script>
+        <script type='text/javascript' src="https://code.angularjs.org/1.5.9/angular-route.min.js"></script>
+        <script type='text/javascript' src="https://code.angularjs.org/1.5.9/angular-resource.min.js"></script>
+        <script type='text/javascript' src="app.js"></script>
+        <script type='text/javascript' src="routes.js"></script>
+        <script type='text/javascript' src="services.js"></script>
+        <script type='text/javascript' src="controllers.js"></script>
+        <script type='text/javascript' src="directives.js"></script>
+        
+</head>
     </head>
     <body>
 
@@ -26,18 +33,18 @@
 			<nav class="navbar navbar-default">
 			<div class="container">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="/">AngularJS Weather</a>
+					<a class="navbar-brand" href="#/">AngularJS Weather SPA</a>
 				</div>
 
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+					<li><a href="#/"><i class="fa fa-home"></i> Home</a></li>
 				</ul>
 			</div>
 			</nav>
 		</header>
 
         <div class="container">
-
+            <div ng-view></div>
 
 		</div>
 
