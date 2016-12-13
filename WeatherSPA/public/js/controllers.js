@@ -8,11 +8,11 @@ weatherApp.controller('homeController', ['$scope', '$location', 'cityService', f
     };
 }]);
 
-weatherApp.controller('forecastController', ['$scope', '$resource', '$routeParams', 'cityService', function($scope, $resource, $routeParams, cityService) {
+weatherApp.controller('forecastController', ['$scope', '$routeParams', 'cityService', 'weatherService', 
+                       function($scope, $routeParams, cityService, weatherService) {
     $scope.city = cityService.city;
     $scope.days = $routeParams.days || '2';
-    $scope.weatherAPI = $resource('http://api.openweathermap.org/data/2.5/forecast/daily?appid=fb667e32eb6a1b247b8463c26b2dedec', {callback: 'JSON_CALLBACK'}, {get: {method: 'JSONP'}});
-    $scope.weatherResult = $scope.weatherAPI.get({q:$scope.city, cnt: $scope.days});
+    $scope.weatherResult = weatherService.weatherAPI().get({q:$scope.city, cnt: $scope.days});
     $scope.convertToCelsius = function(kelvin) {
         return Math.round(kelvin - 273.15);
     };
