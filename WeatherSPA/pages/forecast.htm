@@ -7,6 +7,9 @@
 <a class='btn btn-primary' href='#forecast/5' ng-class="{ 'active': days === '5' }">5 days</a>
 <a class='btn btn-primary' href='#forecast/7' ng-class="{ 'active': days === '7' }">7 days</a>
 <hr>
+<div class="alert alert-success" ng-if="fetchingFromAPI">
+	{{ message }}
+</div>
 <div ng-repeat='w in weatherResult.list'>
     <div class='row'>
         <div class='col-md-12'>

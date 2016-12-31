@@ -12,7 +12,27 @@ weatherApp.controller('forecastController', ['$scope', '$routeParams', 'cityServ
                        function($scope, $routeParams, cityService, weatherService) {
     $scope.city = cityService.city;
     $scope.days = $routeParams.days || '2';
-    $scope.weatherResult = weatherService.weatherAPI().get({q:$scope.city, cnt: $scope.days});
+    var url = 'http://api.openweathermap.org/data/2.5/forecast/daily?appid=fb667e32eb6a1b247b8463c26b2dedec&cnt=' + $scope.days + '&q=' + $scope.city;
+    //console.log(url);
+    
+    if ('caches' in window) {
+        caches.match(url).then(function(response) {
+            if(response) {
+                response.json().then(function updateFromCache(json) {
+                    $scope.weatherResult = json;
+                });
+            } else {
+                $scope.fetchingFromAPI = true;
+                $scope.message = 'no data found in cache, checking weather API for you...'
+            }
+        });
+    }
+    weatherService.weatherAPI(url)
+        .then(function(res){
+            $scope.fetchingFromAPI = false;
+            $scope.weatherResult = res.data;
+        });
+    //$scope.weatherResult = weatherService.weatherAPI().get({q:$scope.city, cnt: $scope.days});
     $scope.convertToCelsius = function(kelvin) {
         return Math.round(kelvin - 273.15);
     };
