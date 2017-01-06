@@ -32,6 +32,8 @@ function init() {
 	newOrAgain.addEventListener("click", function(){
 		reset();
 	});
+	//add service worker
+	addServiceWorker();
 }
 
 function setupSquares() {
@@ -90,6 +92,14 @@ function changeAllColor() {
 	for(var i=0;i<squares.length;i++) {
 		squares[i].style.background = targetColor;
 	}
+}
+
+function addServiceWorker() {
+	if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+             .register('./serviceWorker.js')
+             .then(function() { console.log('Service Worker Registered'); });
+  	}
 }
 
 
