@@ -6,8 +6,8 @@ Full stack app
 * Blog App (library: Node.js, Express.js, mongoose, Semantic UI, EJS)
 
 Pure front-end
-* RGB Color Guess Game (no additional library)
+* RGB Color Guess Game (no additional library, use service worker for caching and offline usage)
 * Sound of Keys (library: Paper.js, Howler.js)
-* Weather Forecast SPA (AngularJS, Service Worker for offline function / caching)
+* (In Progress) Weather Forecast SPA (AngularJS)
 
 
