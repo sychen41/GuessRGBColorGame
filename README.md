@@ -7,6 +7,6 @@
 <h3 class="panel-title">Front-end apps</h3>
 <ul>
   <li><a href="https://rgbgame-c488d.firebaseapp.com/">RGB color guess game</a>(no additional library, use service worker for caching and offline usage)</li>	
-  <li><a href="SoundOfKeys/paper101.html">Sound of Keys</a> (library: Paper.js, Howler.js)</li>
+  <li><a href="https://udel.edu/~sychen/SoundOfKeys/paper101.html">Sound of Keys</a> (library: Paper.js, Howler.js)</li>
   <li><a href="#">(Aborted) Weather Forecast SPA</a> (AngularJS)</li>
 </ul>
